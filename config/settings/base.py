@@ -46,13 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rest_framework',
-    'django_filters',
 ]
 
 INSTALLED_APPS += [
-    'app1',
+    'stats',
 ]
 
 MIDDLEWARE = [
@@ -134,15 +131,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-REST_FRAMEWORK = {
-    'PAGE_SIZE': 5,
-    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
-ENABLE_EXAMPLES = False
