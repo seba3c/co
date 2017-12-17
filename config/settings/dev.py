@@ -30,7 +30,6 @@ LOGGING = {
     },
     'handlers': {
         LOGGING_CONSOLE_HANDLER: {
-            'level': LOGGING_DEFAULT_LEVEL,
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
             'filters': ['require_debug_true'],

@@ -1,0 +1,10 @@
+<clients>
+	 <client ip="127.0.0.1" port="22" username="user" password="password" mail="castanedacs@gmail.com">
+	     <alert type="memory" limit="0.50" />
+	     <alert type="cpu" limit="0.20" />
+	 </client>
+	 <client ip="127.0.0.2" port="22" username="user" password="password" mail="castanedacs@gmail.com">
+       <alert type="memory" limit="0.60" />
+       <alert type="cpu" limit="0.30" />
+   </client>
+</clients>
