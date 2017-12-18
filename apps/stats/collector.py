@@ -96,9 +96,27 @@ class IntranetStatsCollector():
                       }
         IntranetMachineStats.objects.create(**stats_data)
 
+    @staticmethod
+    def _get_alert_stats_value(alert, stats):
+        if alert.type == "memory":
+            return stats["mem"].get("percent", -1)
+        if alert.type == "cpu":
+            return stats["cpu"].get("percent", -1)
+        return -1
+
+    def get_alerts(self, client, stats):
+        alerts = []
+        for alert in client.alerts:
+            value = self._get_alert_stats_value(alert, stats)
+            if value > alert.limit:
+                alerts.append({"type": alert.type, "limit": alert.limit, "value": value})
+        return alerts
+
     def send_alerts(self, client, stats):
-        logger.info("Sending alerts stats of %s host..." % client.ip)
-        pass
+        alerts = self.get_alerts(client, stats)
+        if alerts:
+            logger.info("Sending alerts stats of %s host..." % client.ip)
+            # TODO: send alerts by email
 
     def collect_stats(self):
         logger.info("Collecting stats from Intranet...")

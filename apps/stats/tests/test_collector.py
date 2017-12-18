@@ -4,7 +4,7 @@ import os
 from django.test import TestCase
 from django.conf import settings
 
-from stats.collector import ServerConfig, IntranetStatsCollector
+from stats.collector import ServerConfig, IntranetStatsCollector, ClientConfig, ClientAlert
 from unittest import mock
 from stats.models import IntranetMachine
 
@@ -65,3 +65,28 @@ class IntranetStatsCollectorTestCase(TestCase):
         self.assertEqual(stats.total_uptime, 1250)
         self.assertEqual(stats.mem_usage, 0.30)
         self.assertEqual(stats.cpu_usage, 0.50)
+
+    def test_get_alerts(self):
+        stats = {"os_name": "Linux",
+                 "total_uptime": 1250,
+                 "cpu": {"percent": 0.70},
+                 "mem": {"percent": 0.50}
+                 }
+
+        client_cfg = ClientConfig("127.0.0.1", 22, "username", "password", "email")
+        client_cfg.alerts.append(ClientAlert("cpu", 0.60))
+        client_cfg.alerts.append(ClientAlert("memory", 0.40))
+        alerts = self.collector.get_alerts(client_cfg, stats)
+        self.assertEqual(len(alerts), 2)
+
+        client_cfg.alerts.clear()
+        client_cfg.alerts.append(ClientAlert("cpu", 0.40))
+        client_cfg.alerts.append(ClientAlert("memory", 0.55))
+        alerts = self.collector.get_alerts(client_cfg, stats)
+        self.assertEqual(len(alerts), 1)
+
+        client_cfg.alerts.clear()
+        client_cfg.alerts.append(ClientAlert("cpu", 0.80))
+        client_cfg.alerts.append(ClientAlert("memory", 0.80))
+        alerts = self.collector.get_alerts(client_cfg, stats)
+        self.assertEqual(len(alerts), 0)
