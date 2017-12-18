@@ -20,7 +20,8 @@ class IntranetMachineStats(models.Model):
     cpu_usage = models.FloatField()
     total_uptime = models.FloatField()
 
-    intranet_machine = models.ForeignKey(IntranetMachine, on_delete=models.CASCADE)
+    intranet_machine = models.ForeignKey(IntranetMachine, on_delete=models.CASCADE,
+                                         related_name="stats")
 
 
 # TODO: model for security events logs in Windows Machines

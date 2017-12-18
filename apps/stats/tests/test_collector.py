@@ -8,7 +8,9 @@ from stats.collector import ServerConfig, IntranetStatsCollector
 from unittest import mock
 from stats.models import IntranetMachine
 
+
 TEST_SERVER_CONFIG = os.path.join(settings.APPS_DIR, "stats", "tests", "test_clients_config.xml")
+
 
 class ServerConfigLoaderTestCase(TestCase):
 
@@ -35,12 +37,15 @@ class ServerConfigLoaderTestCase(TestCase):
         self.assertEqual(alerts[1].type, "cpu")
         self.assertEqual(alerts[1].limit, 0.20)
 
+
 def get_fake_stats(instance, client):
     stats = {"os_name": "Linux",
+             "total_uptime": 1250,
              "cpu": {"percent": 0.50},
              "mem": {"percent": 0.30}
-            }
+             }
     return stats
+
 
 class IntranetStatsCollectorTestCase(TestCase):
 
@@ -52,3 +57,11 @@ class IntranetStatsCollectorTestCase(TestCase):
         self.assertEqual(IntranetMachine.objects.count(), 0)
         self.collector.collect_stats()
         self.assertEqual(IntranetMachine.objects.count(), 2)
+
+        i_machine = IntranetMachine.objects.get(ip="127.0.0.2", port=22)
+        stats = i_machine.stats.first()
+
+        self.assertEqual(stats.os_name, "Linux")
+        self.assertEqual(stats.total_uptime, 1250)
+        self.assertEqual(stats.mem_usage, 0.30)
+        self.assertEqual(stats.cpu_usage, 0.50)
