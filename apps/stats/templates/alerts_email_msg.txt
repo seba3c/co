@@ -1,0 +1,4 @@
+The host {{ ip }}:{{ port }} has the following alerts:
+{% for alert in alerts %}
+* "{{ alert.type }}": limit -> {{ alert.limit }} -> current {{ alert.value }}
+{% endfor %}

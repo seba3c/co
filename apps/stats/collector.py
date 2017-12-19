@@ -3,9 +3,11 @@ import os
 import logging
 import xmltodict
 
+from django.template.loader import get_template
+from django.core.mail import send_mail
 from django.conf import settings
-from stats.models import IntranetMachine, IntranetMachineStats
 
+from stats.models import IntranetMachine, IntranetMachineStats
 
 logger = logging.getLogger(__name__)
 
@@ -112,11 +114,24 @@ class IntranetStatsCollector():
                 alerts.append({"type": alert.type, "limit": alert.limit, "value": value})
         return alerts
 
+    def send_email(self, client, alerts):
+        t = get_template("alerts_email_sbj.txt")
+        subject = t.render({"ip": client.ip})
+        t = get_template("alerts_email_msg.txt")
+        message = t.render({"ip": client.ip,
+                            "port": client.port,
+                            "alerts": alerts})
+        send_mail(subject,
+                  message,
+                  client.email,
+                  [],
+                  fail_silently=True)
+
     def send_alerts(self, client, stats):
         alerts = self.get_alerts(client, stats)
         if alerts:
             logger.info("Sending alerts stats of %s host..." % client.ip)
-            # TODO: send alerts by email
+            self.send_email(client, alerts)
 
     def collect_stats(self):
         logger.info("Collecting stats from Intranet...")
