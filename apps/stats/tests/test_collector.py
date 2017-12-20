@@ -39,11 +39,20 @@ class ServerConfigLoaderTestCase(TestCase):
 
 
 def get_fake_stats(instance, client):
-    stats = {"os_name": "Linux",
-             "total_uptime": 1250,
-             "cpu": {"percent": 0.50},
-             "mem": {"percent": 0.30}
-             }
+    stats = {'mem_active': 6815825920.0,
+             'mem_total': 16042115072.0,
+             'mem_used': 2465234944.0,
+             'mem_shared': 152330240.0,
+             'mem_inactive': 1883254784.0,
+             'mem_free': 6828122112.0,
+             'mem_buffers': 297345024.0,
+             'mem_percent': 0.30,
+             'os_name': 'linux2',
+             'mem_available': 13165068288.0,
+             'host_name': 'fake_host',
+             'cpu_percent': 0.50,
+             'mem_cached': 6451412992.0,
+             'total_uptime': 1250}
     return stats
 
 
@@ -61,17 +70,25 @@ class IntranetStatsCollectorTestCase(TestCase):
         i_machine = IntranetMachine.objects.get(ip="127.0.0.2", port=22)
         stats = i_machine.stats.first()
 
-        self.assertEqual(stats.os_name, "Linux")
+        self.assertEqual(stats.os_name, "linux2")
         self.assertEqual(stats.total_uptime, 1250)
         self.assertEqual(stats.mem_usage, 0.30)
         self.assertEqual(stats.cpu_usage, 0.50)
 
     def test_get_alerts(self):
-        stats = {"os_name": "Linux",
-                 "total_uptime": 1250,
-                 "cpu": {"percent": 0.70},
-                 "mem": {"percent": 0.50}
-                 }
+        stats = {'mem_active': 6815825920.0,
+                 'mem_total': 16042115072.0,
+                 'mem_used': 2465234944.0,
+                 'mem_shared': 152330240.0,
+                 'mem_inactive': 1883254784.0,
+                 'mem_free': 6828122112.0,
+                 'mem_buffers': 297345024.0,
+                 'mem_percent': 0.50,
+                 'os_name': 'linux2',
+                 'mem_available': 13165068288.0,
+                 'host_name': 'fake_host',
+                 'cpu_percent': 0.70,
+                 'mem_cached': 6451412992.0}
 
         client_cfg = ClientConfig("127.0.0.1", 22, "username", "password", "email")
         client_cfg.alerts.append(ClientAlert("cpu", 0.60))

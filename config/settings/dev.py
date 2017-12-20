@@ -1,12 +1,11 @@
 import os
-
 from config.settings.base import *
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEBUG = True
 
-LOGGING_DEFAULT_LEVEL = 'ERROR'
+LOGGING_DEFAULT_LEVEL = 'DEBUG'
 LOGGING_APPS_LEVEL = 'DEBUG'
 LOGGING_CONSOLE_HANDLER = 'console'
 LOGGING_FILE_HANDLER = 'file_default'
@@ -34,7 +33,7 @@ LOGGING = {
         LOGGING_CONSOLE_HANDLER: {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-            'filters': ['require_debug_true'],
+            # 'filters': ['require_debug_true'],
         },
         LOGGING_FILE_HANDLER: {
             'level': LOGGING_DEFAULT_LEVEL,
@@ -58,7 +57,7 @@ LOGGING = {
         'stats': {
             'handlers': LOGGING_DEFAULT_HANDLERS,
             'level': LOGGING_APPS_LEVEL,
-            'propagate': False,
+            'propagate': True,
         },
     }
 }

@@ -2,22 +2,28 @@
 
 
 def host_stats_dict():
-
+    import sys
     import psutil
-    stats = {'cpu': {}, 'mem': {}}
-    stats['cpu']['percent'] = psutil.cpu_percent()
+    import socket
+    
+    stats = {}
+    stats['cpu_percent'] = psutil.cpu_percent()
+    stats['total_uptime'] = psutil.boot_time()
 
     mem = psutil.virtual_memory()
-    stats['mem']['total'] = mem.total
-    stats['mem']['available'] = mem.available
-    stats['mem']['percent'] = mem.percent
-    stats['mem']['used'] = mem.used
-    stats['mem']['free'] = mem.free
-    stats['mem']['active'] = mem.active
-    stats['mem']['inactive'] = mem.inactive
-    stats['mem']['buffers'] = mem.buffers
-    stats['mem']['cached'] = mem.cached
-    stats['mem']['shared'] = mem.shared
+    stats['mem_total'] = mem.total
+    stats['mem_available'] = mem.available
+    stats['mem_percent'] = mem.percent
+    stats['mem_used'] = mem.used
+    stats['mem_free'] = mem.free
+    stats['mem_active'] = mem.active
+    stats['mem_inactive'] = mem.inactive
+    stats['mem_buffers'] = mem.buffers
+    stats['mem_cached'] = mem.cached
+    stats['mem_shared'] = mem.shared
+
+    stats["os_name"] = sys.platform
+    stats["host_name"] = socket.gethostname()
 
     return stats
 
@@ -27,4 +33,6 @@ def host_stats():
 
 
 if __name__ == '__main__':
-    print(host_stats())
+    stats = host_stats_dict()
+    for k, v in stats.items():
+        print("%s:%s" % (k,v))
