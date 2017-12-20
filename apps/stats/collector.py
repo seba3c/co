@@ -88,12 +88,13 @@ class IntranetStatsCollector():
 
     def get_stats(self, client):
         """
-        Gets remote host stats using paramiko lib:
-
-        TODO:
-        * handle exceptions 
-        * check if file and dir already exists
+        Gets remote host stats using paramiko lib.
         """
+
+        # TODO:
+        #  * handle exceptions
+        #  * check if file and dir already exists
+        #
         logger.info("Getting remote stats from %s..." % client.ip)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -116,11 +117,13 @@ class IntranetStatsCollector():
             measure = l.split(":")
             measure_name = measure[0]
             measure_value = measure[1].replace("\n", "")
-            try: 
+            try:
                 measure_value = float(measure_value)
             except ValueError:
                 pass
             stats[measure_name] = measure_value
+
+        # TODO: detect if os_name == 'Windows' and get alert security logs
 
         ssh.close()
 
