@@ -87,6 +87,13 @@ class IntranetStatsCollector():
         self.config_loader = ServerConfig(self.filename)
 
     def get_stats(self, client):
+        """
+        Gets remote host stats using paramiko lib:
+
+        TODO:
+        * handle exceptions 
+        * check if file and dir already exists
+        """
         logger.info("Getting remote stats from %s..." % client.ip)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -114,6 +121,8 @@ class IntranetStatsCollector():
             except ValueError:
                 pass
             stats[measure_name] = measure_value
+
+        ssh.close()
 
         return stats
 
@@ -158,9 +167,9 @@ class IntranetStatsCollector():
                             "alerts": alerts})
         send_mail(subject,
                   message,
-                  client.email,
-                  [],
-                  fail_silently=True)
+                  "host.alerts@mail.com",
+                  [client.email],
+                  fail_silently=False)
 
     def send_alerts(self, client, stats):
         "Filter alerts by client and send an email if needed"

@@ -3,6 +3,10 @@ from config.settings.base import *
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+
 DEBUG = True
 
 LOGGING_DEFAULT_LEVEL = 'DEBUG'

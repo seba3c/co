@@ -1,6 +1,6 @@
 <clients>
 	 <client ip="dev-web-11.matterport.com" port="22" username="scastaneda" password="ark2910" mail="castanedacs@gmail.com">
-	     <alert type="memory" limit="0.50" />
-	     <alert type="cpu" limit="0.20" />
+	     <alert type="memory" limit="5.0" />
+	     <alert type="cpu" limit="5.0" />
 	 </client>
 </clients>
