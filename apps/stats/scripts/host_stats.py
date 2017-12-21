@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+# Script to run in every remote host to get system information
+
 
 def host_stats_dict():
     import sys
     import psutil
     import socket
-    
+
     stats = {}
     stats['cpu_percent'] = psutil.cpu_percent()
     stats['total_uptime'] = psutil.boot_time()
@@ -35,4 +37,4 @@ def host_stats():
 if __name__ == '__main__':
     stats = host_stats_dict()
     for k, v in stats.items():
-        print("%s:%s" % (k,v))
+        print("%s:%s" % (k, v))

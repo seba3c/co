@@ -9,7 +9,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEBUG = True
 
-LOGGING_DEFAULT_LEVEL = 'DEBUG'
+LOGGING_DEFAULT_LEVEL = 'ERROR'
 LOGGING_APPS_LEVEL = 'DEBUG'
 LOGGING_CONSOLE_HANDLER = 'console'
 LOGGING_FILE_HANDLER = 'file_default'

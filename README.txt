@@ -12,19 +12,24 @@ http://docs.python-guide.org/en/latest/dev/virtualenvs/
 3) Initialize django database
 * python manage.py migrate
 
+NOTE: you should need to export "DJANGO_SETTINGS_MODULE=config.settings.dev" before run the above
+command
+
 Time spent in assignment
 
-* 15hs aproximately 
+* 15hs approximately 
 
 Assumptions
 
-* -
+* Every machine on the intranet has the capability to execute python scripts to get system
+information
 
 Requirements not covered
 
 * Get Windows security alerts
 * I mark in the code (with TODO tags) some tech debts and pending works
 * A better handling of error and exceptions
+* Encryption (Anyway, reading some paramiko documentation,channels with remote host are already encrypted)
 
 Issues faced
 
@@ -43,3 +48,4 @@ Run the system
 * python manage.py collect_stats (to run the remote host data collection)
 
 * config file is in config/settings/clients_config.xml
+
